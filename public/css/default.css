@@ -1,3 +1,29 @@
+div.page-body {
+    padding-top: 80px;
+}
 div.page-links a.list-group-item {
 	height: 100px;
+}
+.alert {
+    display: none;
+}
+
+.wait {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .8 ) url('/img/wait.gif') 50% 50% no-repeat;
+}
+/* Hide scrollbar when the body has the loading class */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Show the waiting element when the body has the loading class */
+body.loading .wait {
+    display: block;
 }

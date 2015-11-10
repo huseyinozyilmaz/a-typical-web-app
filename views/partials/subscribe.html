@@ -1,0 +1,54 @@
+<div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title" id='subscribe-page-header'>Subscribe</h3>
+        </div>
+        <div class="panel-body">
+            <form id='subscribe-form' role="form">
+                <div class="form-group">
+                    <label for="subscribe-email">Email address</label>
+                    <input type="email" class="form-control" id="subscribe-email">
+                </div>
+                <button type="submit" class="btn btn-default" id='subscribe-button'>Subscribe</button>
+                <br>
+            </form>
+            <div class='result' style="margin-top: 20px;">
+                <div class="alert alert-success subscribe-form-success" role="alert">Thanks for subscribing</div>
+                <div class="alert alert-danger subscribe-form-fail" role="alert">Subscription failed</div>
+            </div>
+        </div>
+        <div class="panel-footer">Asynchronous form uses Ajax post to server and display the result by showing an existing dom element</div>
+    </div>
+</div>
+<script type="text/javascript">
+$(function() {
+    $.mockjax({
+        url: "/api/subscribe",
+        responseTime: 1000,
+        responseText: {
+            "status" : "success"
+        }
+    });
+    $( "#subscribe-form" ).submit(function( event ) {
+        $('.alert').hide();
+        event.preventDefault();
+
+        if($('#subscribe-email').val()){
+            $('#subscribe-email').val('');
+            $('#subscribe-button').prop('disabled', true);
+            $('#subscribe-email').prop('disabled', true);
+            
+            $.getJSON("/api/subscribe", function(response) {
+                if (response.status === "success") {
+                    $('.subscribe-form-success').show();
+                    $('#subscribe-button').prop('disabled', false);
+                    $('#subscribe-email').prop('disabled', false);
+                }
+            });            
+        }
+        else {
+            $('.subscribe-form-fail').show();
+        } 
+    });
+});
+</script>

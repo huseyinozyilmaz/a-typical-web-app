@@ -16,14 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 app.engine('html', hbs.__express);
 hbs.registerPartials(path.join(__dirname, '/views/partials'));
-/**
-app.set('layout', 'layout');
-app.set('partials', { 
-    nav : '_nav'
-});
-app.enable('view cache');
-app.engine('html', require('hogan'));
-**/
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
