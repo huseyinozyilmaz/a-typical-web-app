@@ -5,14 +5,14 @@ var router  = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('layout', { 
+    res.render('template', { 
         title : 'Home',
         partial: 'home'
     });
 });
 
 router.get('/login', function(req, res, next) {
-    res.render('layout', {
+    res.render('template', {
         title   : 'Login',
         partial : 'login',
         loginFailed: false
@@ -26,7 +26,7 @@ router.post('/login', pause(1000), function(req, res, next) {
         loginFailed = false;
         partial = 'loginsuccess';
     }
-    res.render('layout', {
+    res.render('template', {
         title   : 'Login',
         partial : partial,
         loginFailed: loginFailed
@@ -34,7 +34,7 @@ router.post('/login', pause(1000), function(req, res, next) {
 });
 
 router.get('/subscribe', function(req, res, next) {
-    res.render('layout', {
+    res.render('template', {
         title   : 'Subscribe',
         partial : 'subscribe'
     });
