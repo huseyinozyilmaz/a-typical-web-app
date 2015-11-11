@@ -13,8 +13,8 @@
                 <br>
             </form>
             <div class='result' style="margin-top: 20px;">
-                <div class="alert alert-success subscribe-form-success" role="alert">Thanks for subscribing</div>
-                <div class="alert alert-danger subscribe-form-fail" role="alert">Subscription failed</div>
+                <div class="hidden alert alert-success subscribe-form-success" role="alert">Thanks for subscribing</div>
+                <div class="hidden alert alert-danger subscribe-form-fail" role="alert">Subscription failed</div>
             </div>
         </div>
         <div class="panel-footer">Asynchronous form uses Ajax post to server and display the result by showing an existing dom element</div>
@@ -30,7 +30,7 @@ $(function() {
         }
     });
     $( "#subscribe-form" ).submit(function( event ) {
-        $('.alert').hide();
+        $('.alert').addClass('hidden');
         event.preventDefault();
 
         if($('#subscribe-email').val()){
@@ -40,14 +40,14 @@ $(function() {
             
             $.getJSON("/api/subscribe", function(response) {
                 if (response.status === "success") {
-                    $('.subscribe-form-success').show();
+                    $('.subscribe-form-success').removeClass('hidden');
                     $('#subscribe-button').prop('disabled', false);
                     $('#subscribe-email').prop('disabled', false);
                 }
             });            
         }
         else {
-            $('.subscribe-form-fail').show();
+            $('.subscribe-form-fail').removeClass('hidden');
         } 
     });
 });
