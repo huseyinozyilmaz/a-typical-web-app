@@ -17,38 +17,9 @@
                 <div class="hidden alert alert-danger subscribe-form-fail" role="alert">Subscription failed</div>
             </div>
         </div>
-        <div class="panel-footer">Asynchronous form uses Ajax post to server and display the result by showing an existing dom element</div>
+        <div class="panel-footer">
+            <p>Asynchronous form uses Ajax post to server and display the result by showing an existing dom element</p>
+            <p>Server will take 1 second to process the request</p>
+        </div>
     </div>
 </div>
-<script type="text/javascript">
-$(function() {
-    $.mockjax({
-        url: "/api/subscribe",
-        responseTime: 1000,
-        responseText: {
-            "status" : "success"
-        }
-    });
-    $( "#subscribe-form" ).submit(function( event ) {
-        $('.alert').addClass('hidden');
-        event.preventDefault();
-
-        if($('#subscribe-email').val()){
-            $('#subscribe-email').val('');
-            $('#subscribe-button').prop('disabled', true);
-            $('#subscribe-email').prop('disabled', true);
-            
-            $.getJSON("/api/subscribe", function(response) {
-                if (response.status === "success") {
-                    $('.subscribe-form-success').removeClass('hidden');
-                    $('#subscribe-button').prop('disabled', false);
-                    $('#subscribe-email').prop('disabled', false);
-                }
-            });            
-        }
-        else {
-            $('.subscribe-form-fail').removeClass('hidden');
-        } 
-    });
-});
-</script>

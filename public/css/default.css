@@ -1,3 +1,5 @@
+html, body { height: 100%; }
+
 div.page-body {
     padding-top: 80px;
 }
@@ -23,4 +25,24 @@ body.loading {
 /* Show the waiting element when the body has the loading class */
 body.loading .wait {
     display: block;
+}
+
+iframe {
+    width: 100%;
+    min-height: 100%;
+    height: 100%;
+    border: 1px solid #ddd;
+}
+.test-suite {
+    padding-bottom: 4px;
+    border-bottom: 1px solid #eee;
+    text-transform: capitalize;
+}
+.test-status {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #ddd;
+    margin-right: 5px;
+    border-radius: 50%;
 }

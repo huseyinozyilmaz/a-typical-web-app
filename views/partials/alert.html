@@ -1,0 +1,32 @@
+<div class="col-md-6 col-md-offset-3">
+    <div class="panel panel-default col-4">
+        <div class="panel-heading">
+            <h3 class="panel-title">Alert</h3>
+        </div>
+        <div class="panel-body">
+            <button type="button" class="btn btn-default" id='alert'>Click here to alert</button>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#user-greeting-modal">Open Modal</button>
+        </div>
+        <div class="panel-footer">Uses default browser alert window to show a notification to users</div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="user-greeting-modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Greetings</h4>
+            </div>
+            <div class="modal-body">
+                <p>Hello <span id="user-name-to-greet"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
