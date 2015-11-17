@@ -143,6 +143,7 @@ $(function(){
     $('.test-run').click(function() {
         var runner = new Runner($("iframe#scaled-frame"));
         var $logs = $(this).find('.test-logs');
+        $logs.empty();
         $(runner).bind("test.log", function(e, log){
             $logs.append('<li class="success-' + log.success + '">' + log.msg + '</li>');
         });
@@ -151,6 +152,7 @@ $(function(){
             if(result.success){
                 $('.test-status').addClass('test-passed');    
             }
+            $logs.append('<li class="summary success-' + result.success + '">' + result.msg + '</li>');
         });
             
         

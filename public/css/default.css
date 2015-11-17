@@ -65,3 +65,7 @@ ul.test-logs li.success-false:before {
     content: "\2718";
     color: red;
 }
+ul.test-logs li.summary {
+    padding-top: 5px;
+    border-top: 1px solid #ddd;
+}
