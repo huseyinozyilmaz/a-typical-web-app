@@ -46,3 +46,22 @@ iframe {
     margin-right: 5px;
     border-radius: 50%;
 }
+.test-failed {
+    background-color: red;
+}
+.test-passed {
+    background-color: green;
+}
+ul.test-logs {
+    font-size: 12px;
+    list-style:none;
+}
+ul.test-logs li:before {
+    content: "\2714";
+    color: green;
+    padding-right: 4px; 
+}
+ul.test-logs li.success-false:before {
+    content: "\2718";
+    color: red;
+}
