@@ -1,5 +1,102 @@
+if(!String.prototype.format){String.prototype.format=function(){var args=arguments;var sprintfRegex=/\{(\d+)\}/g;var sprintf=function(match,number){return number in args?args[number]:match;};return this.replace(sprintfRegex,sprintf);};}
+
 $(function(){
 
+    var $container = $('.page-body');
+    var $iframe = $('#scaled-frame');
+    var $window = $(window).on('resize', function(){
+        var height = $(this).height()-100;
+        $container.height(height);
+        $iframe.height(height * 1.3);
+        $iframe.width($(this).width()/2 * 1.3);
+    }).trigger('resize'); //on page load
+
+    var tests = [
+        {
+            suite:'login',
+            title:'Verify user can login with valid user account',
+            verify: function(runner) {
+                runner.element('#btn-login').click();
+                runner.waitForPage().then(function(){
+                    runner.element('#email').enter('valid@email.com');
+                    runner.element('#pwd').enter('secret');
+                    runner.element('#submit-btn').click();
+                    runner.waitForPage().then(function() {
+                        runner.element('.login-welcome-msg').text().shouldBe('Your login is successfuls');
+                        runner.end();
+                    });
+                });
+            }
+        }
+    ];
+
+    
+
+    $('#tests').html('');
+
+    for (var i = 0; i < tests.length; i++) {
+        var test = tests[i];
+        var id   = i + 1;
+        var template = '';
+        template+= '<h2 class="test-suite">{0}</h2>'.format(test.suite);
+        template+= '<div class="test-container test-run" id="test-case-{0}">'.format(id);
+        template+= '<a href="#" title="Run this test"><span class="test-status"></span>{0}</a>'.format(test.title);
+        template+= '<ul class="test-logs"></ul>';
+        template+= '</div>';
+
+        $('#tests').append(template);
+        $("#test-case-"+id).data( "test", test);
+    };
+
+
+
+    $('.test-run').click(function() {
+        var runner = new Runner($("iframe#scaled-frame"));
+        var $logs = $(this).find('.test-logs');
+        $logs.empty();
+        $(runner).bind("test.log", function(e, log){
+            $logs.append('<li class="success-' + log.success + '">' + log.msg + '</li>');
+        });
+        $(runner).bind("test.finish", function(e, result){
+            $('.test-status').addClass('test-failed');
+            if(result.success){
+                $('.test-status').addClass('test-passed');    
+            }
+            $logs.append('<li class="summary success-' + result.success + '">' + result.msg + '</li>');
+        });
+            
+        
+        var test = $(this).data('test');
+        test.verify(runner);
+    });
+    
+    $('#btn').click(function() {
+    
+        /**    
+        console.log("1");
+        $("iframe#scaled-frame").contents().find('#btn-login').get(0).click();
+            console.log("2");
+
+        $("iframe#scaled-frame").one( "load", function() { 
+            console.log("3");
+            $("iframe#scaled-frame").contents().find('#email').val('valid@email.com');
+            console.log("4");
+            $("iframe#scaled-frame").contents().find('#pwd').val('secret');
+            console.log("5");
+            $("iframe#scaled-frame").contents().find('#submit-btn').get(0).click();
+            
+            $("iframe#scaled-frame").one( "load", function() { 
+                console.log("6");
+                console.log($("iframe#scaled-frame").contents().find('.login-welcome-msg').text().should.equal('Your login is successful'));
+            });
+        });
+**/
+    });
+
+    /**
+    * Runner class
+    *
+    */
     function Runner(iframeSelector) {
         var logEvent = 'test.log';
         var testEvent = 'test.finish';
@@ -88,98 +185,4 @@ $(function(){
             }
         };
     }
-
-    var $container = $('.page-body');
-    var $iframe = $('#scaled-frame');
-    var $window = $(window).on('resize', function(){
-        var height = $(this).height()-100;
-        $container.height(height);
-        $iframe.height(height * 1.3);
-        $iframe.width($(this).width()/2 * 1.3);
-    }).trigger('resize'); //on page load
-
-    var tests = [
-        {
-            suite:'login',
-            title:'Verify user can login with valid user account',
-            verify: function(runner) {
-                runner.element('#btn-login').click();
-                runner.waitForPage().then(function(){
-                    runner.element('#email').enter('valid@email.com');
-                    runner.element('#pwd').enter('secret');
-                    runner.element('#submit-btn').click();
-                    runner.waitForPage().then(function() {
-                        runner.element('.login-welcome-msg').text().shouldBe('Your login is successfuls');
-                        runner.end();
-                    });
-                });
-            }
-        }
-    ];
-
-    
-
-    $('#tests').html('');
-
-    for (var i = 0; i < tests.length; i++) {
-        var test = tests[i];
-        var id   = i + 1;
-        var template = '';
-        template+= '<h2 class="test-suite">' + test.suite + '</h2>';
-        template+= '<div class="test-container test-run" id="test-case-'+ id +'">';
-        template+= '<a href="#" title="Run this test">';
-        template+= '<span class="test-status"></span>';
-        template+= test.title;
-        template+= '</a>';
-        template+= '<ul class="test-logs"></ul>';
-        template+= '</div>';
-
-        $('#tests').append(template);
-        $("#test-case-"+id).data( "test", test);
-    };
-
-
-
-    $('.test-run').click(function() {
-        var runner = new Runner($("iframe#scaled-frame"));
-        var $logs = $(this).find('.test-logs');
-        $logs.empty();
-        $(runner).bind("test.log", function(e, log){
-            $logs.append('<li class="success-' + log.success + '">' + log.msg + '</li>');
-        });
-        $(runner).bind("test.finish", function(e, result){
-            $('.test-status').addClass('test-failed');
-            if(result.success){
-                $('.test-status').addClass('test-passed');    
-            }
-            $logs.append('<li class="summary success-' + result.success + '">' + result.msg + '</li>');
-        });
-            
-        
-        var test = $(this).data('test');
-        test.verify(runner);
-    });
-    
-    $('#btn').click(function() {
-    
-        /**    
-        console.log("1");
-        $("iframe#scaled-frame").contents().find('#btn-login').get(0).click();
-            console.log("2");
-
-        $("iframe#scaled-frame").one( "load", function() { 
-            console.log("3");
-            $("iframe#scaled-frame").contents().find('#email').val('valid@email.com');
-            console.log("4");
-            $("iframe#scaled-frame").contents().find('#pwd').val('secret');
-            console.log("5");
-            $("iframe#scaled-frame").contents().find('#submit-btn').get(0).click();
-            
-            $("iframe#scaled-frame").one( "load", function() { 
-                console.log("6");
-                console.log($("iframe#scaled-frame").contents().find('.login-welcome-msg').text().should.equal('Your login is successful'));
-            });
-        });
-**/
-    });
 });
