@@ -1,5 +1,31 @@
 $(function(){
     chai.should();
+
+    var x = new function(iframe) {
+        var $iframe = $(iframe).contents();
+        this.element = null;
+        
+        this.element = function (selector) {
+            this.element = $iframe.find(selector);
+            if(!element.length) {
+                console.log('Element ' + selector + ' cannot be found!');
+            }
+            return this;
+        };
+        this.click = function() {
+            this.element.get(0).click();
+        };
+        this.text = function() {
+            return this.element.text();
+        };
+        this.enter = function(text) {
+            this.element.val(text);
+        };
+        this.waitForPage = function() {
+
+        };
+    }
+
     var $container = $('.page-body');
     var $iframe = $('#scaled-frame');
     var $window = $(window).on('resize', function(){
@@ -57,5 +83,23 @@ $(function(){
             });
         });
     });
-    
+    x.element('#btn-login').click();
+    x.waitForPage();
+    x.element('#email').enter('');
+    x.element('#pwd').enter('');
+    x.element('#ubmit-btn').click('');
+    x.waitForPage();
+    x.element('.login-welcome-msg').text().should.equal('xx');
+
+    x.element('#btn-login').click();
+    x.waitForPage.then(function(){
+
+        x.element('#email').enter('');
+        x.element('#pwd').enter('');
+        x.element('#ubmit-btn').click('');
+        
+        x.waitForPage.then(function() {
+            x.element('.login-welcome-msg').text().should.equal('xx');
+        });
+    });
 });
