@@ -87,4 +87,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log('A Typical Web App running at\n  => http://localhost:' + addr.port + '/\nCTRL + C to shutdownon');
 }
